@@ -28,7 +28,8 @@ const player = createSlice({
       ).toString()}`;
     },
     actionResetPlayer(state) {
-      state = initialState;
+      state.score = 0;
+      state.assertions = 0;
     },
     actionSetScore(state, { payload }: PayloadAction<number>) {
       state.score += payload;
