@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Document, {
   DocumentContext,
   DocumentInitialProps,
@@ -6,11 +7,15 @@ import Document, {
   Main,
   NextScript,
 } from 'next/document';
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { ServerStyleSheet } from 'styled-components';
 
+interface test extends DocumentInitialProps {
+  styles: any;
+}
+
 export default class MyDocument extends Document {
-  static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
+  static async getInitialProps(ctx: DocumentContext): Promise<test> {
     const sheet = new ServerStyleSheet();
     const originalRenderPage = ctx.renderPage;
 
@@ -35,13 +40,10 @@ export default class MyDocument extends Document {
     }
   }
 
-  render() {
+  render(): ReactElement {
     return (
-      <Html>
-        <Head>
-          <meta charSet="utf-8" />
-          <link rel="stylesheet" href="https://use.typekit.net/hqo5ogn.css" />
-        </Head>
+      <Html lang="pt-BR">
+        <Head />
         <body>
           <Main />
           <NextScript />

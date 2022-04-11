@@ -33,8 +33,8 @@ const player = createSlice({
     actionSetScore(state, { payload }: PayloadAction<number>) {
       state.score += payload;
     },
-    actionSetAssertions(state, { payload }: PayloadAction<number>) {
-      state.assertions = payload;
+    actionSetAssertions(state) {
+      state.assertions += 1;
     },
   },
 });

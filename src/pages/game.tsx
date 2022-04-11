@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 
 import Header from '../components/Header';
+import Loading from '../components/Loading';
 import Question from '../components/Question';
 import Timer from '../components/Timer';
 import { TimerContext } from '../context/Timer';
@@ -44,7 +45,7 @@ const Game: NextPage<GameProps> = ({ amount }) => {
     resetTimer();
   };
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <Loading />;
   if (error) return <h1>{error}</h1>;
 
   return (

@@ -30,6 +30,7 @@ const Question: NextPage<QuestionProps> = ({ question }) => {
 
   const sumScore = () => {
     dispatch(A.actionSetScore(sum(question.difficulty, timer)));
+    dispatch(A.actionSetAssertions());
   };
 
   const handleAnswerClick = () => {
