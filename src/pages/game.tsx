@@ -1,43 +1,72 @@
-import { GetServerSideProps, NextPage } from 'next';
-import { useState } from 'react';
+/* eslint-disable security/detect-object-injection */
+import { NextPage } from 'next';
+import { useRouter } from 'next/router';
+import { useContext, useEffect, useState } from 'react';
 
-import Header from '../core/Header';
-import Question from '../core/Question';
-import Timer from '../core/Timer';
-import { useAppDispatch, useAppSelector } from '../shared/hooks/redux';
+import Header from '../components/Header';
+import Question from '../components/Question';
+import Timer from '../components/Timer';
+import { TimerContext } from '../context/Timer';
+import { setLocalStorage } from '../helpers/storage';
+import { useAppDispatch, useAppSelector } from '../hooks/redux';
+import { useGame } from '../hooks/useQuestions';
+import { wrapper } from '../store/index.store';
 import * as A from '../store/reducers';
 import * as S from '../styles/pages/Game';
 
-type GameProps = { token: string };
+type GameProps = { amount: number };
 
-const Game: NextPage<GameProps> = ({ token }) => {
+const Game: NextPage<GameProps> = ({ amount }) => {
   const [index, setIndex] = useState(0);
   const dispatch = useAppDispatch();
-  const { isSelectedAnswer, questions } = useAppSelector(state => state.game);
+  const { error, isLoading, isSelectedAnswer, questions } = useGame();
+  const { push } = useRouter();
+  const { resetTimer } = useContext(TimerContext);
+  const {
+    gravatarEmail: picture,
+    name,
+    score,
+    assertions,
+  } = useAppSelector(state => state.player);
+
+  useEffect(() => {
+    resetTimer();
+  }, [resetTimer]);
 
   const handleClickNext = () => {
     dispatch(A.actionSetIsSelectedAnswer());
-    dispatch(A.actionResetTimer());
+    if (index === amount - 1) {
+      setLocalStorage({ name, picture, score, assertions });
+      push('feedback');
+      return;
+    }
     setIndex(prev => prev + 1);
+    resetTimer();
   };
 
+  if (isLoading) return <h1>Loading...</h1>;
+  if (error) return <h1>{error}</h1>;
+
   return (
-    <S.HomeContainer>
+    <S.GameContainer>
       <Header />
-      {/* question={questions[index]} */}
-      <Question index={index} />
+      {!!questions.length && <Question question={questions[index]} />}
       <Timer />
       {isSelectedAnswer && (
         <S.ButtonNext type="button" onClick={handleClickNext}>
           Next
         </S.ButtonNext>
       )}
-    </S.HomeContainer>
+    </S.GameContainer>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  return { props: { token: '' } };
-};
+export const getServerSideProps = wrapper.getServerSideProps(store => async () => {
+  const {
+    settings: { amount },
+  } = store.getState();
+
+  return { props: { amount } };
+});
 
 export default Game;

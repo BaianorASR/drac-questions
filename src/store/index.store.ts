@@ -4,7 +4,7 @@ import { Action } from 'redux';
 
 import game from './reducers/game.reducer';
 import player from './reducers/player.reducer';
-import timer from './reducers/timer.reducer';
+import settings from './reducers/settings.reducer';
 import token from './reducers/token.reducer';
 
 const store = () =>
@@ -12,7 +12,7 @@ const store = () =>
     reducer: {
       game,
       player,
-      timer,
+      settings,
       token,
     },
   });

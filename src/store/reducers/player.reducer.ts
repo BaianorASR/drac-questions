@@ -12,7 +12,7 @@ type TPlayerState = {
 
 const initialState: TPlayerState = {
   name: '',
-  gravatarEmail: '',
+  gravatarEmail: 'https://www.gravatar.com/avatar/d590b690a1281e6ef04e31dff74748d0',
   assertions: 0,
   score: 0,
 };
@@ -31,7 +31,7 @@ const player = createSlice({
       state = initialState;
     },
     actionSetScore(state, { payload }: PayloadAction<number>) {
-      state.score = payload;
+      state.score += payload;
     },
     actionSetAssertions(state, { payload }: PayloadAction<number>) {
       state.assertions = payload;

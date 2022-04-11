@@ -1,4 +1,7 @@
+import bg from '../../assets/images/background.svg';
+
 const defaultTheme = {
+  image: bg,
   background: '#282a36',
   text: '#f8f8f2',
   secondary: '#44475a',

@@ -8,9 +8,10 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    font-family: 'Fira Code', monospace;
+    font-family: 'Montserrat', sans-serif;
     width: 100vw;
     height: 100vh;
+    min-height: 700px;
   }
 `;
 

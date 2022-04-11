@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 
-import { useAppSelector } from '../../shared/hooks/redux';
+import { useAppSelector } from '../../hooks/redux';
 import * as S from './styles';
 
 const Header: NextPage = () => {
@@ -9,9 +9,14 @@ const Header: NextPage = () => {
   return (
     <S.HeaderContainer>
       <S.AvatarImageContainer src={gravatarEmail} alt="avatar" />
+      <S.Title>
+        Drac<span>Questions</span>
+      </S.Title>
       <S.AvatarInfosContainer>
-        <p>{name}</p>
-        <p>Score: {score}</p>
+        <S.Name>{name}</S.Name>
+        <S.Score>
+          Score: <span>{score}</span>
+        </S.Score>
       </S.AvatarInfosContainer>
     </S.HeaderContainer>
   );

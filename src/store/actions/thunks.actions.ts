@@ -1,14 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 
-type TFetchTokenResponse = {
-  response_code: number;
-  response_message: string;
-  token: string;
-};
+import { fetchQuestion, fetchToken } from '../../services/api';
 
-export const thunkGetToken = createAsyncThunk('token/thunkGetToken', async () => {
-  const END_POINT = 'https://opentdb.com/api_token.php?command=request';
-  const response = await axios.get<TFetchTokenResponse>(END_POINT);
-  return response.data.token;
-});
+export const thunkGetToken = createAsyncThunk('token/thunkGetToken', () =>
+  fetchToken().then(res => res),
+);
+
+export const thunkGetQuestions = createAsyncThunk(
+  'game/thunkGetQuestions',
+  (token: string) => fetchQuestion(token).then(res => res),
+);
